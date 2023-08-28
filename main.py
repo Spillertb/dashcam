@@ -3,7 +3,7 @@ from libcamera import controls
 import os
 
 FAST_FOCUS = False
-HDR = False
+HDR = True
 
 
 def create_camera() -> Picamera2:
