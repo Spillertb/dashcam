@@ -7,10 +7,7 @@ HDR = True
 
 
 def create_camera() -> Picamera2:
-    return Picamera2()
-
-
-def start_camera(camera: Picamera2) -> None:
+    camera = Picamera2()
     if HDR:
         os.system("v4l2-ctl --set-ctrl wide_dynamic_range=1 -d /dev/v4l-subdev0")
         print("Setting HDR to ON")
@@ -22,9 +19,10 @@ def start_camera(camera: Picamera2) -> None:
                 "AfSpeed": controls.AfSpeedEnum.Fast,
             }
         )
-    else:
-        camera.set_controls({"AfMode": controls.AfModeEnum.Continuous})
+    return camera
 
+
+def start_camera(camera: Picamera2) -> None:
     camera.start()
 
 
@@ -36,20 +34,22 @@ def stop_camera(camera: Picamera2) -> None:
         print("Setting HDR to OFF")
         os.system("v4l2-ctl --set-ctrl wide_dynamic_range=0 -d /dev/v4l-subdev0")
 
+
 def capture_video(camera: Picamera2) -> None:
     video_config = camera.create_video_configuration()
     camera.configure(video_config)
 
     encoder = H264Encoder(10000000)
-    output = FfmpegOutput('test.mp4')
+    output = FfmpegOutput("test.mp4")
 
     picam2.start_recording(encoder, output)
     time.sleep(10)
     picam2.stop_recording()
 
+
 if __name__ == "__main__":
     camera = create_camera()
-    start_camera(camera)
+    # start_camera(camera)
 
     capture_video(camera)
 
