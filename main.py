@@ -36,10 +36,22 @@ def stop_camera(camera: Picamera2) -> None:
         print("Setting HDR to OFF")
         os.system("v4l2-ctl --set-ctrl wide_dynamic_range=0 -d /dev/v4l-subdev0")
 
+def capture_video(camera: Picamera2) -> None:
+    video_config = camera.create_video_configuration()
+    camera.configure(video_config)
+
+    encoder = H264Encoder(10000000)
+    output = FfmpegOutput('test.mp4')
+
+    picam2.start_recording(encoder, output)
+    time.sleep(10)
+    picam2.stop_recording()
 
 if __name__ == "__main__":
     camera = create_camera()
     start_camera(camera)
+
+    capture_video(camera)
 
     camera.start_and_capture_files("test{:d}.jpg", num_files=1)  # , delay=0.5)
 
