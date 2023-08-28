@@ -6,58 +6,53 @@ import os
 import time
 
 
+class Camera:
+    def __init__(self, hdr=False, fast_focus=False) -> None:
+        self.hdr = hdr
+        self.fast_focus = fast_focus
 
-FAST_FOCUS = False
-HDR = True
+        self.camera = Picamera2()
 
+        if hdr:
+            os.system("v4l2-ctl --set-ctrl wide_dynamic_range=1 -d /dev/v4l-subdev0")
+            print("Setting HDR to ON")
 
-def create_camera() -> Picamera2:
-    camera = Picamera2()
-    if HDR:
-        os.system("v4l2-ctl --set-ctrl wide_dynamic_range=1 -d /dev/v4l-subdev0")
-        print("Setting HDR to ON")
+        if fast_focus:
+            camera.set_controls(
+                {
+                    "AfMode": controls.AfModeEnum.Continuous,
+                    "AfSpeed": controls.AfSpeedEnum.Fast,
+                }
+            )
 
-    if FAST_FOCUS:
-        camera.set_controls(
-            {
-                "AfMode": controls.AfModeEnum.Continuous,
-                "AfSpeed": controls.AfSpeedEnum.Fast,
-            }
-        )
-    return camera
+    def start(self) -> None:
+        self.camera.start()
 
+    def stop(self) -> None:
+        self.camera.stop()
+        if self.hdr:
+            # this must be run after stopping the camera
+            print("Setting HDR to OFF")
+            os.system("v4l2-ctl --set-ctrl wide_dynamic_range=0 -d /dev/v4l-subdev0")
 
-def start_camera(camera: Picamera2) -> None:
-    camera.start()
+    def capture_video(self, duration_seconds: int) -> None:
+        self.stop()
+        
+        video_config = self.camera.create_video_configuration()
+        self.camera.configure(video_config)
 
+        encoder = H264Encoder(10000000)
+        output = FfmpegOutput("test.mp4")
 
-def stop_camera(camera: Picamera2) -> None:
-    camera.stop()
-
-    if HDR:
-        # this must be run after stopping the camera
-        print("Setting HDR to OFF")
-        os.system("v4l2-ctl --set-ctrl wide_dynamic_range=0 -d /dev/v4l-subdev0")
-
-
-def capture_video(camera: Picamera2) -> None:
-    video_config = camera.create_video_configuration()
-    camera.configure(video_config)
-
-    encoder = H264Encoder(10000000)
-    output = FfmpegOutput("test.mp4")
-
-    camera.start_recording(encoder, output)
-    time.sleep(10)
-    camera.stop_recording()
+        self.camera.start_recording(encoder, output)
+        time.sleep(duration_seconds)
+        self.camera.stop_recording()
 
 
 if __name__ == "__main__":
-    camera = create_camera()
+    camera = Camera(hdr=False, fast_focus=False)
     # start_camera(camera)
 
-    capture_video(camera)
+    camera.capture_video(duration_seconds=5)
 
-    camera.start_and_capture_files("test{:d}.jpg", num_files=1)  # , delay=0.5)
-
-    stop_camera(camera)
+    camera.stop()
