@@ -47,9 +47,9 @@ def capture_video(camera: Picamera2) -> None:
     encoder = H264Encoder(10000000)
     output = FfmpegOutput("test.mp4")
 
-    picam2.start_recording(encoder, output)
+    camera.start_recording(encoder, output)
     time.sleep(10)
-    picam2.stop_recording()
+    camera.stop_recording()
 
 
 if __name__ == "__main__":
