@@ -1,6 +1,11 @@
 from picamera2 import Picamera2
+from picamera2.encoders import H264Encoder
+from picamera2.outputs import FfmpegOutput
 from libcamera import controls
 import os
+import time
+
+
 
 FAST_FOCUS = False
 HDR = True
