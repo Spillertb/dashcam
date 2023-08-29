@@ -45,7 +45,13 @@ class Camera:
     def capture_video(self, duration_seconds: int) -> None:
         # self.stop()
 
-        config = self.camera.create_video_configuration(main={"size": (2304, 1296)})#, "format": "SRGGB10_CSI2P"})
+        config = self.camera.create_video_configuration(main={"size": (2304, 1296)}, raw="SRGGB10_CSI2P")
+        
+        
+        picam2.video_configuration = picam2.create_video_configuration(
+            main={"size": (self.resolution_w.value(), self.resolution_h.value())},
+            raw=self.sensor_mode
+        )
         self.camera.configure(config)
 
         # encoder = H264Encoder(10000000)
