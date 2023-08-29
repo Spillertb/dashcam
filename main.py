@@ -45,13 +45,13 @@ class Camera:
     def capture_video(self, duration_seconds: int) -> None:
         # self.stop()
 
-        config = self.camera.create_video_configuration({"size": (4608, 2592)})
+        config = self.camera.create_video_configuration(main={"size": (4608, 2592), "format": "SRGGB10_CSI2P"})
         self.camera.configure(config)
 
-        # encoder = H264Encoder(10000000)
+        encoder = H264Encoder(10000000)
         output = FfmpegOutput("test.mp4")
 
-        self.camera.start_recording(output)
+        self.camera.start_recording(encoder, output)
         time.sleep(duration_seconds)
         self.camera.stop_recording()
 
