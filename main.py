@@ -45,7 +45,7 @@ class Camera:
     def capture_video(self, duration_seconds: int) -> None:
         # self.stop()
 
-        config = self.camera.create_video_configuration(main={"size": (4608, 2592), "format": "SRGGB10_CSI2P"})
+        config = self.camera.create_video_configuration(main={"size": (4608, 2592)})#, "format": "SRGGB10_CSI2P"})
         self.camera.configure(config)
 
         encoder = H264Encoder(10000000)
