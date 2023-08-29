@@ -12,7 +12,6 @@ class Camera:
         self.fast_focus = fast_focus
 
         self.camera = Picamera2()
-        self.camera.resolution = (4608, 2592)
 
         if hdr:
             os.system("v4l2-ctl --set-ctrl wide_dynamic_range=1 -d /dev/v4l-subdev0")
@@ -25,7 +24,7 @@ class Camera:
                     "AfSpeed": controls.AfSpeedEnum.Fast,
                 }
             )
-        
+
         # let the camera warmup and stabalize brightness
         time.sleep(1)
 
@@ -42,7 +41,9 @@ class Camera:
     def capture_video(self, duration_seconds: int) -> None:
         self.stop()
 
-        video_config = self.camera.create_video_configuration()
+        video_config = self.camera.create_video_configuration(
+            main={"size": (4608, 2592)}
+        )
         self.camera.configure(video_config)
 
         encoder = H264Encoder(10000000)
