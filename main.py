@@ -48,12 +48,12 @@ class Camera:
         config = self.camera.create_video_configuration(main={"size": (2304, 1296)})#, "format": "SRGGB10_CSI2P"})
         self.camera.configure(config)
 
-        encoder = H264Encoder(10000000)
-        output = FfmpegOutput("test.mp4")
+        # encoder = H264Encoder(10000000)
+        # output = FfmpegOutput("test.mp4")
 
-        self.camera.start_recording(encoder, output)
-        time.sleep(duration_seconds)
-        self.camera.stop_recording()
+        self.camera.start_and_record_video("test.mp4", duration=5)
+        # time.sleep(duration_seconds)
+        # self.camera.stop_recording()
 
 
 if __name__ == "__main__":
