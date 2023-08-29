@@ -48,10 +48,10 @@ class Camera:
         config = self.camera.create_video_configuration({"size": (4608, 2592)})
         self.camera.configure(config)
 
-        encoder = H264Encoder(10000000)
+        # encoder = H264Encoder(10000000)
         output = FfmpegOutput("test.mp4")
 
-        self.camera.start_recording(encoder, output)
+        self.camera.start_recording(output)
         time.sleep(duration_seconds)
         self.camera.stop_recording()
 
