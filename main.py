@@ -12,7 +12,7 @@ class Camera:
         self.fast_focus = fast_focus
 
         self.camera = Picamera2()
-        self.camera.resolution = (4608 x 2592)
+        self.camera.resolution = (4608, 2592)
 
         if hdr:
             os.system("v4l2-ctl --set-ctrl wide_dynamic_range=1 -d /dev/v4l-subdev0")
