@@ -47,7 +47,7 @@ class Camera:
 
         # config = self.camera.create_video_configuration(main={"size": (4608, 2592)})#, "format": "SRGGB10_CSI2P"})
         # self.camera.configure(config)
-        # self.camera.video_configuration.size = (4608, 2592)
+        self.camera.video_configuration.size = (4608, 2592)
         encoder = H264Encoder(10000000)
         output = FfmpegOutput("test.mp4")
 
