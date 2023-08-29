@@ -13,7 +13,10 @@ class Camera:
 
         self.camera = Picamera2()
 
-        print(f"sensor modes: {self.camera.sensor_modes}")
+        self.sensor_modes = self.camera.sensor_modes
+
+        print(f"sensor modes: {self.sensor_modes}")
+
         if hdr:
             os.system("v4l2-ctl --set-ctrl wide_dynamic_range=1 -d /dev/v4l-subdev0")
             print("Setting HDR to ON")
@@ -42,8 +45,8 @@ class Camera:
     def capture_video(self, duration_seconds: int) -> None:
         self.stop()
 
-        video_config = self.camera.create_video_configuration()
-        self.camera.configure(video_config)
+        config = self.camera.create_video_configuration(self.sensor_modes[-1])
+        self.camera.configure(config)
 
         encoder = H264Encoder(10000000)
         output = FfmpegOutput("test.mp4")
