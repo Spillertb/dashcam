@@ -45,21 +45,15 @@ class Camera:
     def capture_video(self, duration_seconds: int) -> None:
         # self.stop()
 
-        config = self.camera.create_video_configuration(main={"size": (2304, 1296)}, raw="SRGGB10_CSI2P")
-        
-        
-        picam2.video_configuration = picam2.create_video_configuration(
-            main={"size": (self.resolution_w.value(), self.resolution_h.value())},
-            raw=self.sensor_mode
-        )
-        self.camera.configure(config)
+        # config = self.camera.create_video_configuration(main={"size": (4608, 2592)})#, "format": "SRGGB10_CSI2P"})
+        # self.camera.configure(config)
+        # self.camera.video_configuration.size = (4608, 2592)
+        encoder = H264Encoder(10000000)
+        output = FfmpegOutput("test.mp4")
 
-        # encoder = H264Encoder(10000000)
-        # output = FfmpegOutput("test.mp4")
-
-        self.camera.start_and_record_video("test.mp4", duration=5)
-        # time.sleep(duration_seconds)
-        # self.camera.stop_recording()
+        self.camera.start_recording(encoder, output)
+        time.sleep(duration_seconds)
+        self.camera.stop_recording()
 
 
 if __name__ == "__main__":
