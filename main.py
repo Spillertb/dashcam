@@ -45,7 +45,7 @@ class Camera:
     def capture_video(self, duration_seconds: int) -> None:
         self.stop()
 
-        config = self.camera.create_video_configuration((self.sensor_modes[-1]["format"], self.sensor_modes[-1]["size"]))
+        config = self.camera.create_video_configuration(raw=self.sensor_modes[-1])
         self.camera.configure(config)
 
         encoder = H264Encoder(10000000)
