@@ -46,7 +46,7 @@ class Camera:
         )
         self.camera.configure(video_config)
 
-        encoder = H264Encoder(1e7)
+        encoder = H264Encoder(10000000)
         output = FfmpegOutput("test.mp4")
 
         self.camera.start_recording(encoder, output)
