@@ -43,9 +43,9 @@ class Camera:
             os.system("v4l2-ctl --set-ctrl wide_dynamic_range=0 -d /dev/v4l-subdev0")
 
     def capture_video(self, duration_seconds: int) -> None:
-        self.stop()
+        # self.stop()
 
-        config = self.camera.create_video_configuration(main={"format": "SRGGB10_CSI2P", "size": (4608, 2592)})#self.sensor_modes[-1])
+        config = self.camera.create_video_configuration({"size": (4608, 2592)})
         self.camera.configure(config)
 
         encoder = H264Encoder(10000000)
