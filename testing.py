@@ -52,7 +52,7 @@ for i in range(frames):
     print(f"Active threads: {len(active_threads)}")
 
     curr_time = time.time()
-    print("image", i, (curr_time - prev_time) * 10)
+    print("image", i, round((curr_time - prev_time) * 1000, 2), "ms")
     prev_time = curr_time
 
 print(1 / (time.time() - startTime) * frames)
