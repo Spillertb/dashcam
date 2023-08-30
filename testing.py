@@ -51,7 +51,7 @@ for i in range(frames):
     # output_path = f"test.jpg"
     # cv2.imwrite(output_path, img)
 
-    out.write(cv2_image)
+    # out.write(cv2_image)
 
     curr_time = time.time()
     print("image", i, round((curr_time - prev_time) * 1000, 2), "ms")
