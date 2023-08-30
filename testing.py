@@ -6,7 +6,7 @@ camera = Picamera2()
 
 print("sensor modes:", camera.sensor_modes)
 
-config = camera.create_still_configuration(main = {"size": (2304, 1296)})
+config = camera.create_preview_configuration(main = {"size": (2304, 1296)})
 camera.configure(config)
 camera.set_controls({"FrameRate": 100})
 
