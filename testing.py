@@ -12,7 +12,7 @@ sensor_modes = camera.sensor_modes
 
 print("sensor modes:", sensor_modes)
 
-config = camera.create_preview_configuration(main={"size": size})
+config = camera.create_preview_configuration(main={"size": size}, raw=sensor_modes[1])
 camera.configure(config)
 
 camera.set_controls({"FrameRate": 30})
@@ -26,14 +26,12 @@ time.sleep(1)
 # Set up the camera and video parameters
 frame_width = size[0]
 frame_height = size[1]
-fps = 30 
+fps = 30
 output_path = "output_video.mp4"
 
 # Initialize the video writer
-fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+fourcc = cv2.VideoWriter_fourcc(*"mp4v")
 out = cv2.VideoWriter(output_path, fourcc, fps, (frame_width, frame_height))
-
-
 
 
 active_threads = []
@@ -43,7 +41,7 @@ startTime = time.time()
 frames = 100
 prev_time = time.time()
 for i in range(frames):
-    array = camera.capture_array()
+    array = camera.capture_array("raw")
 
     img = cv2.cvtColor(array, cv2.COLOR_RGB2BGR)
 
