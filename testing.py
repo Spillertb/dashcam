@@ -6,7 +6,7 @@ camera = Picamera2()
 
 print("sensor modes:", camera.sensor_modes)
 
-config = camera.create_preview_configuration(main = {"size": (2304, 1296)})
+config = camera.create_preview_configuration(main = {"size": (2304, 1296)}, raw = camera.sensor_modes[1])
 camera.configure(config)
 camera.set_controls({"FrameRate": 100})
 
@@ -20,5 +20,5 @@ time.sleep(1)
 startTime = time.time()
 frames = 50
 for i in range(frames):
-    array = camera.capture_array()
+    array = camera.capture_array("raw")
 print(1 / (time.time() - startTime) * frames)
