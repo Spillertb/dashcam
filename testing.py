@@ -5,6 +5,7 @@ import time
 camera = Picamera2()
 config = camera.create_preview_configuration({"size": (2028, 1520)}, raw = camera.sensor_modes[2])
 camera.configure(config)
+camera.set_controls({"FrameRate": 40})
 
 # Start camera
 camera.start()
