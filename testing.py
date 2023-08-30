@@ -48,7 +48,8 @@ def write_frames(frame_queue, out):
 frame_queue = multiprocessing.Queue()
 
 processes = []
-for i in range(4):
+num_processes = 4
+for i in range(num_processes):
     process = multiprocessing.Process(target=write_frames, args=(frame_queue, i))
     process.start()
     processes.append(process)
@@ -75,13 +76,15 @@ for i in range(frames):
     print("image", i, round((curr_time - prev_time) * 1000, 2), "ms")
     prev_time = curr_time
 
-out.release()
-
-# Add None to the queue to signal the write process to stop
-frame_queue.put(None)
-
-# Wait for the write process to finish
-write_process.join()
-
-
 print("fps", 1 / (time.time() - startTime) * frames)
+
+# Add None to the queue for each process to signal stopping
+for _ in range(num_processes):
+    frame_queue.put(None)
+
+# Wait for all processes to finish
+for process in processes:
+    process.join()
+
+
+out.release()
