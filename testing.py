@@ -42,14 +42,16 @@ startTime = time.time()
 frames = 100
 prev_time = time.time()
 for i in range(frames):
-    array = camera.capture_array()
+    buffers, metadata = camera.capture_array()
 
-    img = cv2.cvtColor(array, cv2.COLOR_RGB2BGR)
+    pil_image = camera.helpers.make_image(buffers[0], config["main"])
+
+    cv2_image = cv2.cvtColor(np.array(pil_image), cv2.COLOR_RGB2BGR)
 
     # output_path = f"test.jpg"
     # cv2.imwrite(output_path, img)
 
-    out.write(img)
+    out.write(cv2_image)
 
     curr_time = time.time()
     print("image", i, round((curr_time - prev_time) * 1000, 2), "ms")
