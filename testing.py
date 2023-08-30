@@ -30,10 +30,10 @@ time.sleep(1)
 frame_width = size[0]
 frame_height = size[1]
 fps = 30
-output_path = "output_video.mp4"
+output_path = "output_video.avi"
 
 # Initialize the video writer
-fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+fourcc = cv2.VideoWriter_fourcc(*"XVID")
 out = cv2.VideoWriter(output_path, fourcc, fps, (frame_width, frame_height))
 
 def write_frames(frame_queue, process_id):
