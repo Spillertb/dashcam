@@ -36,9 +36,9 @@ output_path = "output_video.mp4"
 fourcc = cv2.VideoWriter_fourcc(*"mp4v")
 out = cv2.VideoWriter(output_path, fourcc, fps, (frame_width, frame_height))
 
-def write_frames(frame_queue, process_id):
+def write_frames(frame_queue, out):
     while True:
-        print("frame added", process_id)
+        print("frame added")
         frame = frame_queue.get()
         if frame is None:
             break
@@ -47,12 +47,8 @@ def write_frames(frame_queue, process_id):
 
 frame_queue = multiprocessing.Queue()
 
-processes = []
-num_processes = 3
-for i in range(num_processes):
-    process = multiprocessing.Process(target=write_frames, args=(frame_queue, i))
-    process.start()
-    processes.append(process)
+write_process = multiprocessing.Process(target=write_frames, args=(frame_queue, out))
+write_process.start()
 
 # Capture frames and calculate FPS
 startTime = time.time()
@@ -60,23 +56,29 @@ frames = 100
 prev_time = time.time()
 for i in range(frames):
     array = camera.capture_array()
+
     img = cv2.cvtColor(array, cv2.COLOR_RGB2BGR)
 
+    # output_path = f"test.jpg"
+    # cv2.imwrite(output_path, img)
+
+
+
     frame_queue.put(img)
+
+    # out.write(img)
 
     curr_time = time.time()
     print("image", i, round((curr_time - prev_time) * 1000, 2), "ms")
     prev_time = curr_time
 
-print("fps", 1 / (time.time() - startTime) * frames)
-
-# Add None to the queue for each process to signal stopping
-for _ in range(num_processes):
-    frame_queue.put(None)
-
-# Wait for all processes to finish
-for process in processes:
-    process.join()
-
-
 out.release()
+
+# Add None to the queue to signal the write process to stop
+frame_queue.put(None)
+
+# Wait for the write process to finish
+write_process.join()
+
+
+print("fps", 1 / (time.time() - startTime) * frames)
