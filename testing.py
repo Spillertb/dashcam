@@ -20,5 +20,5 @@ time.sleep(1)
 startTime = time.time()
 frames = 50
 for i in range(frames):
-    array = camera.capture_array("raw")
+    array = camera.capture_array()
 print(1 / (time.time() - startTime) * frames)
