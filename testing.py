@@ -1,5 +1,7 @@
 from picamera2 import Picamera2
 import time
+from PIL import Image
+import numpy as np
 
 # Configure camera for 2028x1520 mode
 camera = Picamera2()
@@ -23,9 +25,13 @@ frames = 500
 prev_time = time.time()
 for i in range(frames):
     array = camera.capture_array()
-    curr_time = time.time()
-    print("capturing image", i, (curr_time-prev_time)*10)
     
+    img = Image.fromarray(np.uint8(array))
+    img.save("original.jpeg")
+
+
+    curr_time = time.time()
+    print("image", i, (curr_time-prev_time)*10)
     prev_time=curr_time
 
 print(1 / (time.time() - startTime) * frames)
