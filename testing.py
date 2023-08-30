@@ -42,7 +42,7 @@ startTime = time.time()
 frames = 100
 prev_time = time.time()
 for i in range(frames):
-    buffers, metadata = camera.capture_array("raw")
+    buffers, metadata = camera.capture_buffers("raw")
 
     pil_image = camera.helpers.make_image(buffers[0], config["main"])
 
