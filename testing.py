@@ -1,13 +1,14 @@
-import threading
+import asyncio
 from picamera2 import Picamera2
 import time
 import cv2
 import numpy as np
+import asyncio
 
-def save_image_async(img, output_path):
+# Define a coroutine to save images asynchronously
+async def save_image_async(img, output_path):
     cv2.imwrite(output_path, img)
     print(f"Image saved to {output_path}")
-
 
 # Configure camera for 2028x1520 mode
 camera = Picamera2()
@@ -25,8 +26,7 @@ camera.start()
 
 time.sleep(1)
 
-
-active_threads = []
+active_tasks = []
 # Capture frames and calculate FPS
 startTime = time.time()
 frames = 500
@@ -38,10 +38,17 @@ for i in range(frames):
 
     output_path = f"output_image_{time.time()}.jpg"
 
-    save_thread = threading.Thread(target=save_image_async, args=(img, output_path))
-    save_thread.start()
+    save_task = asyncio.create_task(save_image_async(img, output_path))
+    # Create a coroutine to save the image asynchronously
+    save_task = asyncio.create_task(save_image_async(img, output_path))
+    active_tasks.append(save_task)  # Add the task to the active tasks list
 
-    active_threads.append(save_thread)
+    # Clean up finished tasks from the list
+    active_tasks = [task for task in active_tasks if not task.done()]
+    
+    # Print the number of active tasks
+    print(f"Active tasks: {len(active_tasks)}")
+
 
     # Prune finished threads from the list
     active_threads = [t for t in active_threads if t.is_alive()]
