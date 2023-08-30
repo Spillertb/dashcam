@@ -16,7 +16,7 @@ sensor_modes = camera.sensor_modes
 
 print("sensor modes:", sensor_modes)
 
-config = camera.create_preview_configuration(main={"size": (2304, 1296)}, raw=sensor_modes[1])
+config = camera.create_preview_configuration(main={"size": (2304, 1296)})
 camera.configure(config)
 
 camera.set_controls({"FrameRate": 30})
@@ -32,10 +32,10 @@ active_threads = []
 
 # Capture frames and calculate FPS
 startTime = time.time()
-frames = 500
+frames = 100
 prev_time = time.time()
 for i in range(frames):
-    array = camera.capture_array("raw")
+    array = camera.capture_array()
 
     img = cv2.cvtColor(array, cv2.COLOR_RGB2BGR)
 
