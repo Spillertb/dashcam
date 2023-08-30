@@ -45,7 +45,7 @@ for i in range(frames):
 
     img = cv2.cvtColor(array, cv2.COLOR_RGB2BGR)
 
-    output_path = f"test.jpg"
+    # output_path = f"test.jpg"
     # cv2.imwrite(output_path, img)
 
     out.write(img)
