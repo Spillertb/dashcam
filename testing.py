@@ -41,7 +41,7 @@ startTime = time.time()
 frames = 100
 prev_time = time.time()
 for i in range(frames):
-    array = camera.capture_array("raw")
+    array = camera.capture_array()
 
     img = cv2.cvtColor(array, cv2.COLOR_RGB2BGR)
 
