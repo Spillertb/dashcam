@@ -1,24 +1,17 @@
-from io import BytesIO
-import time
 from picamera2 import Picamera2
-from picamera2.encoders import H264Encoder
-from picamera2.outputs import FfmpegOutput
-from libcamera import controls
+import time
 
-camera = Picamera2(
-    resolution=(3280, 2464), framerate=15
-)  # sensor_mode=3 only makes it worse
-time.sleep(2)
-cnt = 0
-stream = BytesIO()
-for _ in camera.capture_continuous(stream, burst=True, format="rgb"):
-    stream.truncate()
-    stream.seek(0)
-    print(time.time())
-    # DO NOTHING
-    cnt += 1
+# Configure camera for 2028x1520 mode
+camera = Picamera2()
+config = camera.create_preview_configuration({"size": (2028, 1520)}, raw = camera.sensor_modes[2])
+camera.configure(config)
 
-    if cnt > 10:
-        break
+# Start camera
+camera.start()
+time.sleep(1)
 
-    camera.close()
+# Capture 100 frames and calculate FPS
+startTime = time.time()
+for i in range(100):
+    camera.capture_array("raw")
+print(1 / (time.time() - startTime) * 100)
