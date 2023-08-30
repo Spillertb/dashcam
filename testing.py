@@ -38,6 +38,7 @@ out = cv2.VideoWriter(output_path, fourcc, fps, (frame_width, frame_height))
 
 def write_frames(frame_queue, process_id):
     while True:
+        print("frame added")
         frame = frame_queue.get()
         if frame is None:
             break
