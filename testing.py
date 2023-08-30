@@ -27,7 +27,7 @@ for i in range(frames):
     array = camera.capture_array()
     
     img = Image.fromarray(np.uint8(array))
-    img.save("original.jpeg")
+    img.save("original.png")
 
 
     curr_time = time.time()
