@@ -1,6 +1,6 @@
 from picamera2 import Picamera2
 import time
-from PIL import Image
+import cv2
 import numpy as np
 
 # Configure camera for 2028x1520 mode
@@ -26,8 +26,7 @@ prev_time = time.time()
 for i in range(frames):
     array = camera.capture_array()
     
-    img = Image.fromarray(np.uint8(array))
-    img.save("original.png")
+    img = cv2.cvtColor(array, cv2.COLOR_RGB2BGR)
 
 
     curr_time = time.time()
