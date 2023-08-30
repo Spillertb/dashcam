@@ -3,9 +3,9 @@ import time
 
 # Configure camera for 2028x1520 mode
 camera = Picamera2()
-config = camera.create_preview_configuration({"size": (2028, 1520)}, raw = camera.sensor_modes[2])
+config = camera.create_preview_configuration({"size": (2304, 1296)}, raw = camera.sensor_modes[2])
 camera.configure(config)
-camera.set_controls({"FrameRate": 10})
+camera.set_controls({"FrameRate": 100})
 
 # Start camera
 camera.start()
