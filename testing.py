@@ -19,7 +19,7 @@ print("sensor modes:", sensor_modes)
 config = camera.create_preview_configuration(main={"size": (2304, 1296)}, raw=sensor_modes[1])
 camera.configure(config)
 
-camera.set_controls({"FrameRate": 100})
+camera.set_controls({"FrameRate": 30})
 # estimate 30 fps
 
 # Start camera
