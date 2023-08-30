@@ -30,7 +30,7 @@ fps = 30
 output_path = "output_video.mp4"
 
 # Initialize the video writer
-fourcc = cv2.VideoWriter_fourcc(*'XVID')
+fourcc = cv2.VideoWriter_fourcc(*'mp4v')
 out = cv2.VideoWriter(output_path, fourcc, fps, (frame_width, frame_height))
 
 
