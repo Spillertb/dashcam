@@ -30,10 +30,10 @@ time.sleep(1)
 frame_width = size[0]
 frame_height = size[1]
 fps = 30
-output_path = "output_video.avi"
+output_path = "output_video.mp4"
 
 # Initialize the video writer
-fourcc = cv2.VideoWriter_fourcc(*"XVID")
+fourcc = cv2.VideoWriter_fourcc(*"mp4v")
 out = cv2.VideoWriter(output_path, fourcc, fps, (frame_width, frame_height))
 
 def write_frames(frame_queue, process_id):
@@ -48,7 +48,7 @@ def write_frames(frame_queue, process_id):
 frame_queue = multiprocessing.Queue()
 
 processes = []
-num_processes = 10
+num_processes = 3
 for i in range(num_processes):
     process = multiprocessing.Process(target=write_frames, args=(frame_queue, i))
     process.start()
@@ -60,17 +60,9 @@ frames = 100
 prev_time = time.time()
 for i in range(frames):
     array = camera.capture_array()
-
     img = cv2.cvtColor(array, cv2.COLOR_RGB2BGR)
 
-    # output_path = f"test.jpg"
-    # cv2.imwrite(output_path, img)
-
-
-
     frame_queue.put(img)
-
-    # out.write(img)
 
     curr_time = time.time()
     print("image", i, round((curr_time - prev_time) * 1000, 2), "ms")
