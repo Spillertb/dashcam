@@ -28,6 +28,8 @@ for i in range(frames):
     
     img = cv2.cvtColor(array, cv2.COLOR_RGB2BGR)
 
+    output_path = "output_image.jpg"
+    cv2.imwrite(output_path, img)
 
     curr_time = time.time()
     print("image", i, (curr_time-prev_time)*10)
