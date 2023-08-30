@@ -24,7 +24,8 @@ prev_time = time.time()
 for i in range(frames):
     array = camera.capture_array()
     curr_time = time.time()
-    print("capturing image", i, curr_time-prev_time)
+    print("capturing image", i, (curr_time-prev_time)*10)
+    
     prev_time=curr_time
 
 print(1 / (time.time() - startTime) * frames)
