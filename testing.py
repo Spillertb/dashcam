@@ -4,8 +4,8 @@ import time
 import cv2
 import numpy as np
 
-# size = (2304, 1296)
-size = (1152, 648)
+size = (2304, 1296)
+# size = (1152, 648)
 
 # Configure camera for 2028x1520 mode
 camera = Picamera2()
