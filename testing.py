@@ -22,5 +22,5 @@ startTime = time.time()
 frames = 500
 for i in range(frames):
     array = camera.capture_array()
-    print("capturing image", i)
+    print("capturing image", i, time.time())
 print(1 / (time.time() - startTime) * frames)
