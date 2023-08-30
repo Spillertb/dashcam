@@ -1,8 +1,11 @@
+import multiprocessing
 import threading
 from picamera2 import Picamera2
 import time
 import cv2
 import numpy as np
+
+
 
 size = (2304, 1296)
 
@@ -30,11 +33,21 @@ fps = 30
 output_path = "output_video.mp4"
 
 # Initialize the video writer
-fourcc = cv2.VideoWriter_fourcc(*"mp4")
+fourcc = cv2.VideoWriter_fourcc(*"mp4v")
 out = cv2.VideoWriter(output_path, fourcc, fps, (frame_width, frame_height))
 
+def write_frames(frame_queue, out):
+    while True:
+        frame = frame_queue.get()
+        if frame is None:
+            break
+        out.write(frame)
 
-active_threads = []
+
+frame_queue = multiprocessing.Queue()
+
+write_process = multiprocessing.Process(target=write_frames, args=(frame_queue, out))
+write_process.start()
 
 # Capture frames and calculate FPS
 startTime = time.time()
@@ -48,12 +61,23 @@ for i in range(frames):
     # output_path = f"test.jpg"
     # cv2.imwrite(output_path, img)
 
-    out.write(img)
+
+
+    frame_queue.put(img)
+
+    # out.write(img)
 
     curr_time = time.time()
     print("image", i, round((curr_time - prev_time) * 1000, 2), "ms")
     prev_time = curr_time
 
 out.release()
+
+# Add None to the queue to signal the write process to stop
+frame_queue.put(None)
+
+# Wait for the write process to finish
+write_process.join()
+
 
 print("fps", 1 / (time.time() - startTime) * frames)
