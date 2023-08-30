@@ -44,7 +44,7 @@ prev_time = time.time()
 for i in range(frames):
     buffers, metadata = camera.capture_buffers(["raw"])
 
-    pil_image = camera.helpers.make_image(buffers[0], config["main"])
+    pil_image = camera.helpers.make_image(buffers[0], config["raw"])
 
     cv2_image = cv2.cvtColor(np.array(pil_image), cv2.COLOR_RGB2BGR)
 
