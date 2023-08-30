@@ -4,6 +4,7 @@ import time
 import cv2
 import numpy as np
 
+size = (2304, 1296)
 
 # Configure camera for 2028x1520 mode
 camera = Picamera2()
@@ -11,7 +12,7 @@ sensor_modes = camera.sensor_modes
 
 print("sensor modes:", sensor_modes)
 
-config = camera.create_preview_configuration(main={"size": (2304, 1296)})
+config = camera.create_preview_configuration(main={"size": size})
 camera.configure(config)
 
 camera.set_controls({"FrameRate": 30})
@@ -21,6 +22,18 @@ camera.set_controls({"FrameRate": 30})
 camera.start()
 
 time.sleep(1)
+
+# Set up the camera and video parameters
+frame_width = size[0]
+frame_height = size[1]
+fps = 30 
+output_path = "output_video.mp4"
+
+# Initialize the video writer
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
+out = cv2.VideoWriter(output_path, fourcc, fps, (frame_width, frame_height))
+
+
 
 
 active_threads = []
@@ -35,10 +48,14 @@ for i in range(frames):
     img = cv2.cvtColor(array, cv2.COLOR_RGB2BGR)
 
     output_path = f"test.jpg"
-    cv2.imwrite(output_path, img)
-    
+    # cv2.imwrite(output_path, img)
+
+    out.write(img)
+
     curr_time = time.time()
     print("image", i, round((curr_time - prev_time) * 1000, 2), "ms")
     prev_time = curr_time
+
+out.release()
 
 print("fps", 1 / (time.time() - startTime) * frames)
