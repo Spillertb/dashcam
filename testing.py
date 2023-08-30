@@ -38,7 +38,7 @@ out = cv2.VideoWriter(output_path, fourcc, fps, (frame_width, frame_height))
 
 def write_frames(frame_queue, process_id):
     while True:
-        print("frame added")
+        print("frame added", process_id)
         frame = frame_queue.get()
         if frame is None:
             break
@@ -48,7 +48,7 @@ def write_frames(frame_queue, process_id):
 frame_queue = multiprocessing.Queue()
 
 processes = []
-num_processes = 4
+num_processes = 10
 for i in range(num_processes):
     process = multiprocessing.Process(target=write_frames, args=(frame_queue, i))
     process.start()
