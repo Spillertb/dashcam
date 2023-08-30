@@ -12,10 +12,11 @@ def save_image_async(img, output_path):
 
 # Configure camera for 2028x1520 mode
 camera = Picamera2()
+sensor_modes = camera.sensor_modes
 
-print("sensor modes:", camera.sensor_modes)
+print("sensor modes:", sensor_modes)
 
-config = camera.create_preview_configuration(main={"size": (2304, 1296)})
+config = camera.create_preview_configuration(main={"size": (2304, 1296)}, raw=sensor_modes[1])
 camera.configure(config)
 
 camera.set_controls({"FrameRate": 100})
@@ -34,7 +35,7 @@ startTime = time.time()
 frames = 500
 prev_time = time.time()
 for i in range(frames):
-    array = camera.capture_array()
+    array = camera.capture_array("raw")
 
     img = cv2.cvtColor(array, cv2.COLOR_RGB2BGR)
 
@@ -55,4 +56,4 @@ for i in range(frames):
     print("image", i, round((curr_time - prev_time) * 1000, 2), "ms")
     prev_time = curr_time
 
-print(1 / (time.time() - startTime) * frames)
+print("fps", 1 / (time.time() - startTime) * frames)
