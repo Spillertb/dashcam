@@ -20,7 +20,11 @@ time.sleep(1)
 # Capture frames and calculate FPS
 startTime = time.time()
 frames = 500
+prev_time = time.time()
 for i in range(frames):
     array = camera.capture_array()
-    print("capturing image", i, time.time())
+    curr_time = time.time()
+    print("capturing image", i, curr_time-prev_time)
+    prev_time=curr_time
+
 print(1 / (time.time() - startTime) * frames)
