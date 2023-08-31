@@ -43,12 +43,12 @@ class Camera:
             #     buffers[0], self.config["raw"]
             # )
 
-            cv2_image = cv2.cvtColor(np.array(np_array), cv2.COLOR_RGB2BGR)
+            # cv2_image = cv2.cvtColor(np.array(np_array), cv2.COLOR_RGB2BGR)
 
             # output_path = f"test.jpg"
             # cv2.imwrite(output_path, cv2_image)
 
-            video_out.write(cv2_image)
+            # video_out.write(cv2_image)
 
             curr_time = time.time()
             duration = curr_time - prev_time
