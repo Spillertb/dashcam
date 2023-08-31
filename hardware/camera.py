@@ -21,7 +21,7 @@ class Camera:
         self.config = self.camera.create_preview_configuration(
             main={"size": size}, raw=sensor_modes[1]
         )
-        self.camera.configure(self.__format__config)
+        self.camera.configure(self.config)
 
         self.camera.set_controls({"FrameRate": frame_rate})
 
