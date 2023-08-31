@@ -59,4 +59,4 @@ if __name__ == "__main__":
     camera = Camera()
     # start_camera(camera)
 
-    output = camera.capture()
+    output = camera.capture(Picamera2())

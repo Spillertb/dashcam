@@ -14,8 +14,8 @@ class Camera:
 
     config = None
 
-    def __init__(self):
-        self.camera = Picamera2()
+    def __init__(self, camera: Picamera2):
+        self.camera = camera
         sensor_modes = self.camera.sensor_modes
 
         self.config = self.camera.create_preview_configuration(
