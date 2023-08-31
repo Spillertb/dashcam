@@ -39,7 +39,7 @@ class Camera:
             # buffers, metadata = self.camera.capture_buffers(["raw"])
             np_array = self.camera.capture_array()
 
-            im = Image.fromarray(np_array)
+            im = Image.fromarray(np_array).convert('RGB')
             im.save("test.jpeg")
             # pil_image = self.camera.helpers.make_image(
             #     buffers[0], self.config["raw"]
