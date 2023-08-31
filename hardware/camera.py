@@ -39,7 +39,7 @@ class Camera:
         for i in range(frames):
             buffers, metadata = self.camera.capture_buffers(["raw"])
 
-            pil_image = self.cameracamera.helpers.make_image(
+            pil_image = self.camera.helpers.make_image(
                 buffers[0], self.config["raw"]
             )
 
