@@ -56,7 +56,7 @@ import time
 
 
 if __name__ == "__main__":
-    camera = Camera()
+    camera = Camera(Picamera2())
     # start_camera(camera)
 
-    output = camera.capture(Picamera2())
+    output = camera.capture()
