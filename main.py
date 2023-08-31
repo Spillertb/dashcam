@@ -56,7 +56,7 @@ import time
 
 
 if __name__ == "__main__":
-    camera = Camera(hdr=False, fast_focus=False)
+    camera = Camera()
     # start_camera(camera)
 
     output = camera.capture()
