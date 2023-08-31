@@ -31,32 +31,32 @@ class Camera:
     def capture(self, frames: int = 100, output_path: str = "output_video.mp4"):
         # Initialize the video writer
         fourcc = cv2.VideoWriter_fourcc(*"mp4v")
-        out = cv2.VideoWriter(output_path, fourcc, frame_rate, size)
+        video_out = cv2.VideoWriter(output_path, fourcc, frame_rate, size)
 
-        # Capture frames and calculate FPS
-        startTime = time.time()
+        start_time = time.time()
         prev_time = time.time()
         for i in range(frames):
-            buffers, metadata = self.camera.capture_buffers(["raw"])
+            # buffers, metadata = self.camera.capture_buffers(["raw"])
+            np_array = self.camera.capture_array()
 
-            pil_image = self.camera.helpers.make_image(
-                buffers[0], self.config["raw"]
-            )
+            # pil_image = self.camera.helpers.make_image(
+            #     buffers[0], self.config["raw"]
+            # )
 
-            cv2_image = cv2.cvtColor(np.array(pil_image), cv2.COLOR_RGB2BGR)
+            cv2_image = cv2.cvtColor(np.array(np_array), cv2.COLOR_RGB2BGR)
 
             # output_path = f"test.jpg"
             # cv2.imwrite(output_path, cv2_image)
 
-            out.write(cv2_image)
+            video_out.write(cv2_image)
 
             curr_time = time.time()
             duration = curr_time - prev_time
             prev_time = curr_time
             print("image", i, round((duration) * 1000, 2), "ms")
 
-        out.release()
+        video_out.release()
 
-        print("average fps", 1 / (time.time() - startTime) * frames)
+        print("average fps", 1 / (time.time() - start_time) * frames)
 
         return output_path
