@@ -10,12 +10,12 @@ frame_rate = 30
 
 
 class Camera:
-    camera: Picamera2() = None
+    camera: Picamera2 = None
 
     config = None
 
-    def __init__(self, camera: Picamera2):
-        self.camera = camera
+    def __init__(self):
+        self.camera = Picamera2()
         sensor_modes = self.camera.sensor_modes
 
         self.config = self.camera.create_preview_configuration(
