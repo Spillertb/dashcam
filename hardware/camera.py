@@ -2,7 +2,7 @@ import numpy as np
 from picamera2 import Picamera2
 import time
 import cv2
-
+from PIL import Image
 
 size = (2304, 1296)
 
@@ -39,6 +39,8 @@ class Camera:
             # buffers, metadata = self.camera.capture_buffers(["raw"])
             np_array = self.camera.capture_array()
 
+            im = Image.fromarray(np_array)
+            im.save("test.jpeg")
             # pil_image = self.camera.helpers.make_image(
             #     buffers[0], self.config["raw"]
             # )
