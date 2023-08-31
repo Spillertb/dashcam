@@ -4,7 +4,7 @@ import time
 import cv2
 from PIL import Image
 
-size = (2304, 1296)
+size = (1280, 720)
 
 frame_rate = 30
 
